@@ -1,0 +1,7 @@
+C:\Users\USUARIO\Desktop\Faculdade\Projetos\Fanatee Teste\Teste_Fanatee\Teste_Fanatee\bin\Debug\Teste_Fanatee.exe.config
+C:\Users\USUARIO\Desktop\Faculdade\Projetos\Fanatee Teste\Teste_Fanatee\Teste_Fanatee\bin\Debug\Teste_Fanatee.exe
+C:\Users\USUARIO\Desktop\Faculdade\Projetos\Fanatee Teste\Teste_Fanatee\Teste_Fanatee\bin\Debug\Teste_Fanatee.pdb
+C:\Users\USUARIO\Desktop\Faculdade\Projetos\Fanatee Teste\Teste_Fanatee\Teste_Fanatee\obj\Debug\Teste_Fanatee.csprojAssemblyReference.cache
+C:\Users\USUARIO\Desktop\Faculdade\Projetos\Fanatee Teste\Teste_Fanatee\Teste_Fanatee\obj\Debug\Teste_Fanatee.csproj.CoreCompileInputs.cache
+C:\Users\USUARIO\Desktop\Faculdade\Projetos\Fanatee Teste\Teste_Fanatee\Teste_Fanatee\obj\Debug\Teste_Fanatee.exe
+C:\Users\USUARIO\Desktop\Faculdade\Projetos\Fanatee Teste\Teste_Fanatee\Teste_Fanatee\obj\Debug\Teste_Fanatee.pdb
