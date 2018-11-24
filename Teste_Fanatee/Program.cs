@@ -6,46 +6,7 @@ using System.Threading.Tasks;
 
 namespace Teste_Fanatee
 {
-    public class Robos
-    {
-        public _coordenates _coordination;
-
-        //Construtor da classe Robos , inicializa as variáveis qu guardam as informações das coordenadas (x,y) e sua orientação respctivamente;
-        public Robos(int x, int y, char orientation)
-        {
-            this._coordination.X = x;
-            this._coordination.Y = y;
-
-            // Relaciona cada ponto cardeal com um valor inteiro;
-            if (orientation == 'N')
-            {
-                this._coordination._ori = 0;
-            }
-            else if (orientation == 'O')
-            {
-                this._coordination._ori = 1;
-            }
-            else if (orientation == 'S')
-            {
-                this._coordination._ori = 2;
-            }
-            else if (orientation == 'L')
-            {
-                this._coordination._ori = 3;
-            }
-        }
-
-        //Struct que guarda as informações relacioandas as coordenadas (X,Y) e a orientação;
-        public struct _coordenates
-        {
-            public int X { get; set; }
-            public int Y { get; set; }
-            public int _ori { get; set; }
-        }
-
-    }
-
-    class Program
+   class Program
     {
         //Função que realiza o movimento do robô baseado no input, como por exemplo : "EAEAEAEAA";
         private static bool Orientaton_Moviment(string _mov, Robos robo, int x, int y)
@@ -162,7 +123,8 @@ namespace Teste_Fanatee
             return true;
         }
 
-        //Verifica as coordenadas tanto do platô, quanto do robo;
+
+        //Verifica se a movimentação dada foi correta, ou seja, se o usuário não digitou alguma letra diferente de A,E e D;
         private static bool Orientation_Verification(string line)
         { 
             for (int i = 0; i < line.Length; i++)
@@ -177,6 +139,7 @@ namespace Teste_Fanatee
             return true;
         }
 
+        //Verifica se as orientações cardiais dadas foram corretas, ou seja, se o usuário não digitou alguma letra diferente de N,O,S e L;
         private static bool Orientation_Cardial_Verification(char line)
         {
             if (line != 'N' && line != 'S' && line != 'L' && line != 'O')
@@ -189,38 +152,26 @@ namespace Teste_Fanatee
         }
 
 
-        //Função que mostra as coordenadas e orientações finais do robõ;
-        private static void Show_Robots_Coordinates(List<Robos> robos, Dictionary<int,char> _ori)
+        //Função que mostra as coordenadas e orientações finais dos robôs;
+        private static void Show_Robots_Coordinates(List<Robos> robos)
         {
             Console.WriteLine("\nCOORDENADAS E ORIENTAÇÕES FINAIS DOS ROBÔS");
             foreach (Robos r in robos)
             {
-                Console.WriteLine(" " + r._coordination.X.ToString() + "  " + r._coordination.Y.ToString() + "  " + _ori[r._coordination._ori]);
+                Console.WriteLine(" " + r._coordination.X.ToString() + "  " + r._coordination.Y.ToString() + "  " + r._coordination.SetOrientationName());
             }
-        }
-
-        private static void Inicializate_Coordinates(ref Dictionary<int, char> _coor) 
-        {
-            _coor.Add(0, 'N');
-            _coor.Add(1, 'O');
-            _coor.Add(2, 'S');
-            _coor.Add(3, 'L');
         }
 
         static void Main(string[] args)
         {
             //Lista que conterá todos os robôs que estão no platô;
             List<Robos> _robots = new List<Robos>();
-            //Dicionário relacionando variaveis inteiras com os pontos cardiais, sendo 0 - Norte, 1 - Oeste, 2 - Sul, 3 - Leste;
-            Dictionary<int, char> _orientation = new Dictionary<int, char>();
+            // Variável que armazenará as informações do robô;
             Robos r;
             // Variáveis que guardam as coordenadas (x,y) do canto superior direito do platô;
             int x_plato, y_plato;
             char choice;
             bool results;
-
-            //Inicializa o Diniconário _orientation;
-            Inicializate_Coordinates(ref _orientation);
 
             //Input das coordenadas (X,Y) do do canto superior direito do platô;
 
@@ -239,22 +190,30 @@ namespace Teste_Fanatee
 
                 do
                     {
-                //Variável que guarda o Input das coordenada (X,Y) e localização do robô;
-                // Separa o Input pelos espaços dados. Cada parte separada é salva em uma posição do vetor _corrobo;
                 do
                 {
                     Console.Write("Coordenadas (X,Y) e a Orientação (N, O , S , L) do Robô: ");
+
+                    //Variável que guarda o Input das coordenada (X,Y) e localização do robô;
+                    // Separa o Input pelos espaços dados. Cada parte separada é salva em uma posição do vetor _corrobo;
                     string[] _coordrobot = Console.ReadLine().Split(' ');
+
                     // Guarda as informações do robô na lista;
+                    //Passa a informação da orientação cardial para letra maiúscula para evitar erros caso
+                    // algum usuário digitasse por engano a letra minúscula;
                     r = new Robos(int.Parse(_coordrobot[0]), int.Parse(_coordrobot[1]), char.Parse(_coordrobot[2].ToUpper()));
 
                     results = Orientation_Cardial_Verification(char.Parse(_coordrobot[2].ToUpper()));
+
                 } while (!results);
 
                 do
                 {
                     Console.Write("Movimentação do Robô: ");
+                    //Pega o INPUT relacionado a movimentação do Robô e passa tudo para letra maiúscula para evitar erros caso
+                    // algum usuário digitasse por engano as letras minúsculas;
                     string _moviment = Console.ReadLine().ToUpper();
+
                     //Realiza a movimentação do robô no platô baseado no Input dado;
                     results = Orientaton_Moviment(_moviment, r, x_plato, y_plato);
 
@@ -264,6 +223,7 @@ namespace Teste_Fanatee
 
                 do
                   {
+                    //Verifica se o usuário quer continuar movimentando mais algum robô;
                      Console.Write("Deseja Movimentar mais Robôs? (S/N) -> ");
                      choice = char.Parse(Console.ReadLine());
                  } while (choice == 'S' && choice == 's' && choice == 'N' && choice == 'n');
@@ -271,7 +231,7 @@ namespace Teste_Fanatee
             } while (choice == 'S' || choice == 's');
 
                     //Mostra as coordenadas e localização finais dos robôs;
-                    Show_Robots_Coordinates(_robots, _orientation);
+                    Show_Robots_Coordinates(_robots);
 
                     Console.ReadKey();
 
