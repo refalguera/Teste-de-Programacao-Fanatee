@@ -12,17 +12,19 @@ namespace Teste_Fanatee
         private static bool Orientaton_Moviment(string _mov, Robos robo, int x, int y)
         {
             //Verificar se todas as letras dadas no INPUT SÃO A, E ou D;
+            //Caso aformativo, realiza os movimentos;
+            //Caso contrario é enviada um informação para o usuário pedindo que o mesmo digite novamente os movimentos;
             if (Orientation_Verification(_mov))
             {
-                //Como associou-se cada ponto cardial com uma variável inteira, logo ele so pode ter 3 orientações e não pode haver orientação com valor maior que 3;
+                //Como associou-se cada ponto cardial com uma variável inteira, logo o robô so pode ter 3 orientações e não pode haver orientação com valor maior que 3;
 
                 for (int i = 0; i < _mov.Length; i++)
                 {
-                    // Se for encontrato do INPUT a letra 'E' que significa virar 90º graus a esquerda, então:
+                    // Se for encontrato no INPUT a letra 'E' que significa virar 90º graus a esquerda, então:
                     if (_mov[i] == 'E')
                     {
 
-                        //Quando se vira a esquerda ele soma 1 na orientação do robô, pois exemplo:
+                        //Quando se vira a esquerda ele soma 1 na orientação do robô, pois por exemplo:
                         // Norte -> se virar a esquerda -> Oeste;
                         // Sul -> se virar a esqueda -> Leste;
                         // Oeste -> Se virar a esquerda -> Sul;
@@ -106,11 +108,14 @@ namespace Teste_Fanatee
             }
         }
 
-        //Verifica as coordenadas tanto do platô, quanto do robo;
+        //Verifica as coordenadas tanto do platô, quanto do robô;
+        //Verifica se há alguma coordenada X ou Y com valor negativo;
+        //Caso Afirmativo, avisa o usuário, e permite que o mesmo redigite as coordenadas;
         private static bool Coordinates_Verification(string[] line)
         {
-            //O limte do for é 2 , porque tanto os respectivos valores das coordenadas estão sempre nas 2 primeiras posições, evotando assim
-            //problemas caso o usuário sem querer aperte uma letra a mais, ou um espaço;
+            //O limite do for é 2 , porque tanto os respectivos valores das coordenadas do platô e do robô estão sempre nas 2 primeiras posições, evitando assim
+            //problemas caso o usuário sem querer aperte uma letra a mais, ou qualquer outro caracter;
+
             for(int i =0;i< 2; i++)
             {
                 if(int.Parse(line[i]) < 0)
@@ -125,6 +130,7 @@ namespace Teste_Fanatee
 
 
         //Verifica se a movimentação dada foi correta, ou seja, se o usuário não digitou alguma letra diferente de A,E e D;
+        //Caso Negativo, avisa o usuário, e permite que o mesmo redigite os movimentos do robô;
         private static bool Orientation_Verification(string line)
         { 
             for (int i = 0; i < line.Length; i++)
@@ -140,11 +146,12 @@ namespace Teste_Fanatee
         }
 
         //Verifica se as orientações cardiais dadas foram corretas, ou seja, se o usuário não digitou alguma letra diferente de N,O,S e L;
+        //Caso Negativo, avisa o usuário, e permite que o mesmo redigite as coordenadas e orientação novamente;
         private static bool Orientation_Cardial_Verification(char line)
         {
             if (line != 'N' && line != 'S' && line != 'L' && line != 'O')
             {
-                Console.WriteLine("AS ORIENTAÇÕS SÃO FEITAS USANDO AS LETRAS N, O, S e L");
+                Console.WriteLine("AS ORIENTAÇÕS SÃO FEITAS USANDO AS LETRAS N (Norte), O (Oeste), S (Sul) e L (Leste)");
                 return false;
             }
 
@@ -158,7 +165,7 @@ namespace Teste_Fanatee
             Console.WriteLine("\nCOORDENADAS E ORIENTAÇÕES FINAIS DOS ROBÔS");
             foreach (Robos r in robos)
             {
-                Console.WriteLine(" " + r._coordination.X.ToString() + "  " + r._coordination.Y.ToString() + "  " + r._coordination.SetOrientationName());
+                Console.WriteLine(" " + r._coordination.X.ToString() + "  " + r._coordination.Y.ToString() + "  " + r._orientation[r._coordination._ori]);
             }
         }
 
@@ -170,20 +177,26 @@ namespace Teste_Fanatee
             Robos r;
             // Variáveis que guardam as coordenadas (x,y) do canto superior direito do platô;
             int x_plato, y_plato;
+            //Variável usada para guardar a resposta em relação a se o usuario quer ou não movimentar mais robôs;
             char choice;
+            //Variável usada para guardar a resposta em relação as verificações sobre as coordenadas, orientações e movimentação do robô;
             bool results;
 
-            //Input das coordenadas (X,Y) do do canto superior direito do platô;
 
             do
             {
                 Console.Clear();
                 Console.Write("Coordenadas (X,Y) do platô: ");
+                //Input das coordenadas (X,Y) do canto superior direito do platô;
+                //Como na mesma linha se digitará tanto o X e o Y, é necessário que se pegue cada dado separadamente;
+                // Separa o Input pelos espaços dados. Cada parte separada é salva em uma posição do vetor _cordplato;
                 string[] _cordplato = Console.ReadLine().Split(' ');
 
+                //Salva os valores de X e Y nas variáveis;
                 x_plato = int.Parse(_cordplato[0]);
                 y_plato = int.Parse(_cordplato[1]);
 
+                //Verifica se as coordenadas dadas estão corretas, ou seja, não são negativas;
                 results = Coordinates_Verification(_cordplato);
 
             } while (!results);
@@ -195,12 +208,13 @@ namespace Teste_Fanatee
                     Console.Write("Coordenadas (X,Y) e a Orientação (N, O , S , L) do Robô: ");
 
                     //Variável que guarda o Input das coordenada (X,Y) e localização do robô;
+                    //Como na mesma linha se digitará tanto o X e o Y, é necessário que se pegue cada dado separadamente;
                     // Separa o Input pelos espaços dados. Cada parte separada é salva em uma posição do vetor _corrobo;
                     string[] _coordrobot = Console.ReadLine().Split(' ');
 
                     // Guarda as informações do robô na lista;
-                    //Passa a informação da orientação cardial para letra maiúscula para evitar erros caso
-                    // algum usuário digitasse por engano a letra minúscula;
+                    //Instância a classe robô, passando as informações para o construtor referentes as coordenadas (X,Y) e a orientação cardial, que é colocada em letra maiúscula para evitar erros caso
+                    //algum usuário digite por engano a letra em minúsculo;
                     r = new Robos(int.Parse(_coordrobot[0]), int.Parse(_coordrobot[1]), char.Parse(_coordrobot[2].ToUpper()));
 
                     results = Orientation_Cardial_Verification(char.Parse(_coordrobot[2].ToUpper()));
@@ -211,7 +225,7 @@ namespace Teste_Fanatee
                 {
                     Console.Write("Movimentação do Robô: ");
                     //Pega o INPUT relacionado a movimentação do Robô e passa tudo para letra maiúscula para evitar erros caso
-                    // algum usuário digitasse por engano as letras minúsculas;
+                    //algum usuário digite por engano as letras em minúsculo;
                     string _moviment = Console.ReadLine().ToUpper();
 
                     //Realiza a movimentação do robô no platô baseado no Input dado;

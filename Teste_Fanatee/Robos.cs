@@ -8,9 +8,15 @@ namespace Teste_Fanatee
 {
     public class Robos
     {
+        //Irá se associar valores inteiros aos pontos cardias, assim cria-se um Dicionário para guardar essa associação;
+        //Quando for necessário saber em char, a orientação do robô, é so acessar o dicionário;
+        //Irá ser usado na mostra das orientações finais dos robôs;
+        public Dictionary<int, char> _orientation = new Dictionary<int, char>() { { 0, 'N'}, { 1, 'O'}, { 2, 'S'}, { 3,'L'} };
+
+        //Variável que guardará as irnformações referentes as coordenadas e orientação do robô;
         public _coordenates _coordination;
 
-        //Construtor da classe Robos , inicializa as variáveis qu guardam as informações das coordenadas (x,y) e sua orientação respctivamente;
+        //Construtor da classe Robos , armazena na variável _coordination as informações das coordenadas (x,y) e sua orientação respctivamente;
         public Robos(int x, int y, char orientation)
         {
             this._coordination.X = x;
@@ -35,35 +41,12 @@ namespace Teste_Fanatee
             }
         }
 
-        //Struct que guarda as informações relacioandas as coordenadas (X,Y) e a orientação;
+        //Struct relacionada as informações das coordenadas (X,Y) e a orientação em valor inteiro;
         public struct _coordenates
         {
             public int X { get; set; }
             public int Y { get; set; }
             public int _ori { get; set; }
-
-            //Como se associou valores inteiros aos pontos cardias, a função setOrientationName retorna então o char correspondente ao valor inteiro da orientação;
-            public char SetOrientationName()
-            {
-                 if(_ori == 0)
-                {
-                    return 'N';
-                }
-                 else if(_ori == 1)
-                {
-                    return 'O';
-                }
-                else if (_ori == 2)
-                {
-                    return 'S';
-                }
-                else if (_ori == 3)
-                {
-                    return 'L';
-                }
-
-                return '0';
-            }
         }
 
     }
